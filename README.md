@@ -19,11 +19,15 @@ memanfaatkan pendekatan agentic AI dan retrieval-augmented generation (RAG).
 🚧 Milestone 1 — Problem Framing, Spesifikasi PEAS, & Baseline Search (UCS)
 
 ## Struktur Proyek
-├── docs/ # Dokumen problem framing, PEAS, dan laporan
-├── src/ # Kode sumber program
-├── pyproject.toml # Konfigurasi dependensi (Astral uv)
-└── README.md
-
+ecommerce-cs-ai-agent/
+├── docs/                       # Dokumen problem framing, PEAS, dan laporan
+├── src/
+│   └── ecommerce_cs_ai_agent/  # Kode sumber program
+├── pyproject.toml              # Konfigurasi proyek dan dependensi
+├── uv.lock                     # Lock file dependensi
+├── README.md                   # Dokumentasi proyek
+├── LICENSE                     # Lisensi proyek
+└── .gitignore                  # File yang diabaikan Git
 
 ## Cara Instalasi
 ```bash
