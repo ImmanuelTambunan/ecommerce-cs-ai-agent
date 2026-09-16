@@ -10,9 +10,9 @@ perutean, dan penanganan tiket layanan pelanggan pada platform e-commerce, denga
 memanfaatkan pendekatan agentic AI dan retrieval-augmented generation (RAG).
 
 ## Anggota Tim
-1. Adithya Silaban - 12S24029
+1. Adithya Philip Jona Putra Silaban - 12S24029
 2. Mutiara Y.H. Sianturi - 12S24045
-3. Immanuel Tambunan - 12S24034
+3. Immanuel Alexander Tambunan - 12S24034 
 
 
 ## Status Proyek
