@@ -32,5 +32,5 @@ uv sync
 
 ## Cara Menjalankan
 ```bash
-uv run src/search.py
+uv run src/ecommerce_cs_ai_agent/search.py
 ```
