@@ -20,14 +20,15 @@ memanfaatkan pendekatan agentic AI dan retrieval-augmented generation (RAG).
 
 ## Struktur Proyek
 ecommerce-cs-ai-agent/
-├── docs/                       # Dokumen problem framing, PEAS, dan laporan
-├── src/
-│   └── ecommerce_cs_ai_agent/  # Kode sumber program
-├── pyproject.toml              # Konfigurasi proyek dan dependensi
-├── uv.lock                     # Lock file dependensi
-├── README.md                   # Dokumentasi proyek
-├── LICENSE                     # Lisensi proyek
-└── .gitignore                  # File yang diabaikan Git
+├── docs/                   # Dokumen problem framing, PEAS, dan laporan
+├── src/                    # Kode sumber program
+│   └── ecommerce_cs_ai_agent/
+├── test/                   # Skrip pengujian otomatis (pytest)
+├── .gitignore              # File yang diabaikan Git
+├── LICENSE                 # Lisensi proyek
+├── README.md               # Dokumentasi proyek
+├── pyproject.toml          # Konfigurasi proyek dan dependensi
+└── uv.lock                 # Lock file dependensi
 
 ## Cara Instalasi
 ```bash
