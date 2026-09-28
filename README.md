@@ -21,6 +21,8 @@ memanfaatkan pendekatan agentic AI dan retrieval-augmented generation (RAG).
 ## Struktur Proyek
 ecommerce-cs-ai-agent/
 ├── docs/                   # Dokumen problem framing, PEAS, dan laporan
+│   ├── Grup17_Tugas01.pdf
+│   └── Grup17_Tugas2.pdf
 ├── src/                    # Kode sumber program
 │   └── ecommerce_cs_ai_agent/
 ├── test/                   # Skrip pengujian otomatis (pytest)
