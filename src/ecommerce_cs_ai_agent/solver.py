@@ -1,5 +1,5 @@
 """
-Modul Pemecahan Batasan Keputusan Bisnis (CSP Ticket Routing AI Copilot)
+Modul Pemecahan Batasan Keputusan Bisnis (CSP Message Routing AI Copilot)
 Mata Kuliah: Kecerdasan Buatan (10S3001) - Milestone 2 (W04)
 Kelompok: 17
 """
@@ -14,42 +14,44 @@ DOMAIN_ACTIONS = [
     "L3_Auto_Policy_Resolution"
 ]
 
+
 @dataclass
 class Ticket:
     id: str
     category: str      # Info_Stok, Retur_Ukuran, Cacat_Produk, Lacak_Paket
-    priority: int      # 1=Tinggi/Klaim, 2=Transaksi, 3=Info
-    confidence: float  # Skala 0.0 - 1.0
+    priority: int       # 1=Tinggi/Klaim, 2=Transaksi, 3=Info
+    confidence: float   # Skala 0.0 - 1.0
 
 
 class TicketRoutingCSP:
     def __init__(
-        self, 
-        tickets: List[Ticket], 
-        min_l2_l3_capacity: int = 1, 
+        self,
+        tickets: List[Ticket],
+        min_l2_l3_capacity: int = 1,
         max_l2_l3_capacity: int = 50
     ):
         self.tickets: Dict[str, Ticket] = {t.id: t for t in tickets}
         self.variables: List[str] = [t.id for t in tickets]
         self.min_capacity = min_l2_l3_capacity
         self.max_capacity = max_l2_l3_capacity
-        
         self.domains: Dict[str, List[str]] = {
             t.id: list(DOMAIN_ACTIONS) for t in tickets
         }
 
     def node_consistency(self, domains: Dict[str, List[str]]) -> bool:
-        """Memangkas domain awal berdasarkan C_kategori dan C_ambang."""
+        """Memangkas domain berdasarkan C_kategori dan C_ambang.
+        Perbaikan: C_kategori melarang L1 untuk barang cacat, C_ambang
+        melarang L3 untuk keyakinan rendah (bukan memaksa hanya L1),
+        sehingga kombinasi kedua kondisi tetap punya solusi (L2),
+        tidak menghasilkan domain kosong seperti versi sebelumnya."""
         for t_id, ticket in self.tickets.items():
-            valid_actions = []
-            for action in domains[t_id]:
-                # C_ambang: Keyakinan rendah (< 0.60) wajib L1
-                if ticket.confidence < 0.60 and action != "L1_RAG_AutoReply":
-                    continue
-                # C_kategori: Cacat_Produk wajib L2 atau L3
-                if ticket.category == "Cacat_Produk" and action == "L1_RAG_AutoReply":
-                    continue
-                valid_actions.append(action)
+            valid_actions = list(domains[t_id])
+
+            if ticket.category == "Cacat_Produk" and "L1_RAG_AutoReply" in valid_actions:
+                valid_actions.remove("L1_RAG_AutoReply")
+
+            if ticket.confidence < 0.60 and "L3_Auto_Policy_Resolution" in valid_actions:
+                valid_actions.remove("L3_Auto_Policy_Resolution")
 
             domains[t_id] = valid_actions
             if len(domains[t_id]) == 0:
@@ -57,33 +59,28 @@ class TicketRoutingCSP:
         return True
 
     def ac3(self, domains: Dict[str, List[str]]) -> bool:
-        """
-        Algoritma Arc Consistency 3 (AC-3) untuk memvalidasi konsistensi busur
-        antar-tiket terhadap keterbatasan slot kuota bersama.
-        """
-        # Inisialisasi antrean semua busur terarah (Xi, Xj)
+        """Arc Consistency 3, dipanggil SEKALI saja sebelum pencarian
+        dimulai (bukan diulang di setiap langkah backtracking), karena
+        batasan kapasitas pada kasus ini bersifat global dan sudah
+        divalidasi langsung lewat is_assignment_consistent()."""
         queue: List[Tuple[str, str]] = [
             (xi, xj) for xi in self.variables for xj in self.variables if xi != xj
         ]
-
         while queue:
             xi, xj = queue.pop(0)
             if self._revise(domains, xi, xj):
                 if len(domains[xi]) == 0:
                     return False
-                # Tambahkan kembali busur tetangga (Xk, Xi)
                 for xk in self.variables:
                     if xk != xi and xk != xj:
                         queue.append((xk, xi))
         return True
 
     def _revise(self, domains: Dict[str, List[str]], xi: str, xj: str) -> bool:
-        """Merevisi domain Xi jika tidak ada pasangan nilai legal di Xj."""
         revised = False
         for x_val in list(domains[xi]):
-            # Periksa apakah ada nilai y di domain Xj yang konsisten
             has_support = any(
-                self._is_pair_consistent(xi, x_val, xj, y_val) 
+                self._is_pair_consistent(xi, x_val, xj, y_val)
                 for y_val in domains[xj]
             )
             if not has_support:
@@ -92,43 +89,37 @@ class TicketRoutingCSP:
         return revised
 
     def _is_pair_consistent(self, xi: str, x_val: str, xj: str, y_val: str) -> bool:
-        """Memvalidasi batasan biner lokal antar-tiket."""
-        # Jika kapasitas server dibatasi 1 slot, dua tiket tidak boleh sama-sama mengambil L3
         if self.max_capacity <= 1:
             if x_val == "L3_Auto_Policy_Resolution" and y_val == "L3_Auto_Policy_Resolution":
                 return False
         return True
 
     def is_assignment_consistent(self, assignment: Dict[str, str]) -> bool:
-        """Pemeriksaan batas kapasitas sistem (C_kapasitas)."""
+        """Validasi batas kapasitas sistem (C_kapasitas), dicek di
+        setiap langkah penugasan (bukan hanya di akhir), supaya
+        pencarian bisa langsung dipangkas lebih awal ketika melebihi
+        kapasitas maksimum."""
         assigned_l2_l3 = sum(
-            1 for val in assignment.values() 
+            1 for val in assignment.values()
             if val in ("L2_Transaction_Agent", "L3_Auto_Policy_Resolution")
         )
-
-        # Cek batas atas
         if assigned_l2_l3 > self.max_capacity:
             return False
-
-        # Jika semua variabel sudah terisi, cek jaminan batas minimum
         if len(assignment) == len(self.variables):
             if assigned_l2_l3 < self.min_capacity:
                 return False
-
         return True
 
     def select_unassigned_variable_mrv(
         self, assignment: Dict[str, str], domains: Dict[str, List[str]]
     ) -> str:
-        """Heuristik MRV dengan tie-breaker prioritas tiket."""
         unassigned = [v for v in self.variables if v not in assignment]
         return min(
-            unassigned, 
+            unassigned,
             key=lambda v: (len(domains[v]), self.tickets[v].priority)
         )
 
     def order_domain_values(self, var: str, domains: Dict[str, List[str]]) -> List[str]:
-        """Pengurutan nilai berdasarkan C_prioritas."""
         ticket = self.tickets[var]
         available = list(domains[var])
         if ticket.priority == 1:
@@ -143,24 +134,19 @@ class TicketRoutingCSP:
         self, assignment: Dict[str, str], domains: Dict[str, List[str]]
     ) -> Optional[Dict[str, str]]:
         if len(assignment) == len(self.variables):
-            return assignment if self.is_assignment_consistent(assignment) else None
+            return dict(assignment) if self.is_assignment_consistent(assignment) else None
 
         var = self.select_unassigned_variable_mrv(assignment, domains)
-
         for value in self.order_domain_values(var, domains):
             assignment[var] = value
             if self.is_assignment_consistent(assignment):
                 local_domains = copy.deepcopy(domains)
                 local_domains[var] = [value]
-                
-                # Propagasi AC-3 selama pencarian
                 if self.ac3(local_domains):
                     result = self.backtrack(assignment, local_domains)
                     if result is not None:
                         return result
-
             del assignment[var]
-
         return None
 
     def solve(self) -> Optional[Dict[str, str]]:
@@ -170,3 +156,21 @@ class TicketRoutingCSP:
         if not self.ac3(working_domains):
             return None
         return self.backtrack({}, working_domains)
+
+
+if __name__ == "__main__":
+    sample_messages = [
+        Ticket(id="MSG001", category="Info_Stok", priority=3, confidence=0.95),
+        Ticket(id="MSG002", category="Cacat_Produk", priority=1, confidence=0.40),
+        Ticket(id="MSG003", category="Retur_Ukuran", priority=2, confidence=0.80),
+        Ticket(id="MSG004", category="Lacak_Paket", priority=3, confidence=0.97),
+    ]
+    csp = TicketRoutingCSP(sample_messages, min_l2_l3_capacity=1, max_l2_l3_capacity=50)
+    solution = csp.solve()
+
+    print("=== HASIL PERUTEAN PESAN PELANGGAN (CSP) ===")
+    if solution:
+        for msg_id, channel in solution.items():
+            print(f"{msg_id} -> {channel}")
+    else:
+        print("Tidak ditemukan solusi yang memenuhi seluruh batasan (Unsatisfiable).")
