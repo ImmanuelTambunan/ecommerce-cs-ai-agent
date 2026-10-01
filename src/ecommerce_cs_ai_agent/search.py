@@ -1,27 +1,27 @@
 """
 Baseline Search - Uniform Cost Search (UCS)
 Proyek: Enterprise AI Copilot untuk Otomasi Customer Service E-Commerce
-Kasus: Pencarian jalur penanganan tiket dengan biaya (waktu) minimum
+Kasus: Pencarian jalur penanganan tiket 100% otomatis tanpa Supervisor
 """
 
 import heapq
 
-# Representasi graf: {status: [(status_tujuan, biaya), ...]}
+# Graf otomatisasi berjenjang (Level 1, Level 2, Level 3)
 graph = {
     "Diterima": [("Level_1", 5)],
     "Level_1": [("Selesai", 10), ("Level_2", 15)],
-    "Level_2": [("Selesai", 12), ("Supervisor", 20)],
-    "Supervisor": [("Selesai", 8)],
+    "Level_2": [("Selesai", 12), ("Level_3", 18)],
+    "Level_3": [("Selesai", 8)],
     "Selesai": []
 }
 
 
 def uniform_cost_search(graph, start, goal):
     """
-    Mencari jalur dengan biaya (cost) minimum dari start ke goal
-    menggunakan Uniform Cost Search dengan priority queue (heapq).
+    Mencari jalur dengan biaya (waktu) minimum dari start ke goal
+    menggunakan Uniform Cost Search.
     """
-    frontier = [(0, start, [start])]  # (biaya_kumulatif, node_saat_ini, jalur)
+    frontier = [(0, start, [start])]
     visited = set()
 
     while frontier:
