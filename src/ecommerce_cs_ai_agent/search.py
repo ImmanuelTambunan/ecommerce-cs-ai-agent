@@ -1,7 +1,11 @@
 """
 Baseline Search - Uniform Cost Search (UCS)
-Proyek: Enterprise AI Copilot untuk Otomasi Customer Service E-Commerce
-Kasus: Pencarian jalur penanganan tiket 100% otomatis tanpa Supervisor
+Proyek: Enterprise AI Copilot untuk Otomasi Customer Service
+Ritel Daring Perlengkapan Sekolah
+
+Kasus:
+Pencarian jalur penanganan tiket secara otomatis
+pada platform ritel daring fiktif BeliCepat.
 """
 
 import heapq

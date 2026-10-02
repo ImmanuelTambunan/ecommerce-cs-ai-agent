@@ -64,9 +64,28 @@ ecommerce-cs-ai-agent/
 uv sync
 ```
 
-## Cara Menjalankan
-```bash
+## Menjalankan Baseline UCS
 uv run src/ecommerce_cs_ai_agent/search.py
+
+Output yang diharapkan:
+
+Jalur penanganan tiket optimal: Diterima -> Level_1 -> Selesai
+Total estimasi waktu penanganan: 15 menit
+
+## Menjalankan CSP Solver
 uv run src/ecommerce_cs_ai_agent/solver.py
+
+Output yang diharapkan:
+
+=== HASIL PERUTEAN PESAN PELANGGAN (CSP) ===
+MSG002 -> L2_Transaction_Agent
+MSG003 -> L1_RAG_AutoReply
+MSG001 -> L1_RAG_AutoReply
+MSG004 -> L1_RAG_AutoReply
+
+Urutan tiket dapat berbeda karena pemilihan variabel menggunakan heuristik MRV dan prioritas.
+
+## Menjalankan Pengujian
 uv run pytest
-```
+
+Hasil yang diharapkan setelah struktur folder tests/ sudah benar: 5 passed
