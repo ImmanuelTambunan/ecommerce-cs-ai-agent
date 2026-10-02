@@ -13,7 +13,7 @@ sekolah, dengan memanfaatkan pendekatan agentic AI dan retrieval-augmented gener
 ## Anggota Tim
 1. Adithya Philip Jona Putra Silaban - 12S24029
 2. Mutiara Y.H. Sianturi - 12S24045
-3. Immanuel Alexander Tambunan - 12S24034
+3. Immanuel Alexander Tambunan - 12S24034s
 
 ## Status Proyek
 ✅ Milestone 1 — Problem Framing, Spesifikasi PEAS, & Baseline Search (UCS)
