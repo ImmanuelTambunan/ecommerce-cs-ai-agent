@@ -40,7 +40,7 @@ class TicketRoutingCSP:
 
     def node_consistency(self, domains: Dict[str, List[str]]) -> bool:
         """Memangkas domain berdasarkan C_kategori dan C_ambang.
-        Perbaikan: C_kategori melarang L1 untuk barang cacat, C_ambang
+        Perbaikan : C_kategori melarang L1 untuk barang cacat, C_ambang
         melarang L3 untuk keyakinan rendah (bukan memaksa hanya L1),
         sehingga kombinasi kedua kondisi tetap punya solusi (L2),
         tidak menghasilkan domain kosong seperti versi sebelumnya."""
