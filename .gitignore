@@ -23,3 +23,6 @@ Thumbs.db
 
 # IDE settings (opsional)
 .vscode/
+
+# Vector database local persistence
+data/chroma_db/

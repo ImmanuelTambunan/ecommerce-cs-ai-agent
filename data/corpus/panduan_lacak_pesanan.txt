@@ -1,0 +1,80 @@
+PANDUAN PENGGUNAAN FITUR LACAK PESANAN
+=======================================
+Platform: BeliCepat — Toko Daring Perlengkapan Sekolah
+Berlaku sejak: 1 Januari 2026
+
+1. RUANG LINGKUP
+Panduan ini menjelaskan cara pelanggan melacak status pesanan dan pengiriman
+melalui platform BeliCepat.
+
+2. STATUS PESANAN
+Berikut tahapan status pesanan di platform BeliCepat:
+
+a) MENUNGGU PEMBAYARAN
+   - Pesanan telah dibuat tapi belum dibayar.
+   - Batas waktu: 24 jam (otomatis batal jika tidak dibayar).
+
+b) PEMBAYARAN TERKONFIRMASI
+   - Pembayaran berhasil dan sedang diverifikasi sistem.
+   - Proses: otomatis dalam 1-5 menit.
+
+c) SEDANG DIPROSES
+   - Pesanan sedang disiapkan oleh tim gudang.
+   - Estimasi: 1x24 jam kerja.
+   - Pesanan masih bisa dibatalkan di tahap ini.
+
+d) SEDANG DIKEMAS
+   - Barang sedang dikemas dan diberi label pengiriman.
+   - Pesanan tidak bisa dibatalkan di tahap ini.
+
+e) SEDANG DIKIRIM
+   - Barang sudah diserahkan ke kurir.
+   - Nomor resi tersedia untuk pelacakan.
+   - Pelanggan menerima notifikasi SMS/WhatsApp dan email berisi nomor resi.
+
+f) DALAM PERJALANAN
+   - Barang sedang dalam perjalanan ke alamat tujuan.
+   - Update posisi paket tersedia di halaman pelacakan kurir.
+
+g) SEDANG DIANTAR
+   - Kurir sedang dalam perjalanan ke alamat pelanggan.
+   - Pelanggan akan menerima notifikasi "Kurir menuju lokasi Anda".
+
+h) DITERIMA
+   - Barang telah sampai dan diterima oleh pelanggan/penerima.
+   - Konfirmasi otomatis atau manual oleh pelanggan dalam 2 hari.
+   - Setelah dikonfirmasi, dana diteruskan ke BeliCepat.
+
+i) SELESAI
+   - Transaksi selesai. Poin loyalitas dikreditkan.
+   - Pelanggan dapat memberikan rating dan ulasan produk.
+
+3. CARA MELACAK PESANAN
+a) Via Aplikasi/Website BeliCepat:
+   - Login ke akun > menu "Pesanan Saya" > pilih pesanan > lihat detail.
+   - Klik nomor resi untuk melihat pelacakan real-time.
+
+b) Via WhatsApp:
+   - Kirim pesan "LACAK [nomor pesanan]" ke 0812-8888-9999.
+   - Contoh: LACAK ORD-2026-001234
+   - Bot akan membalas status terkini dalam hitungan detik.
+
+c) Via Website Kurir:
+   - Salin nomor resi dari halaman pesanan.
+   - Buka website kurir (jne.co.id, jet.co.id, sicepat.com, dll).
+   - Masukkan nomor resi di kolom pelacakan.
+
+4. NOTIFIKASI OTOMATIS
+- Pelanggan menerima notifikasi otomatis di setiap perubahan status:
+  - Push notification (aplikasi)
+  - SMS
+  - WhatsApp
+  - Email
+- Pelanggan dapat mengatur preferensi notifikasi di menu "Pengaturan Akun".
+
+5. MASALAH UMUM PELACAKAN
+- "Nomor resi tidak ditemukan": tunggu 2-4 jam setelah pengiriman, karena
+  kurir memerlukan waktu untuk memindai paket ke sistem.
+- "Status tidak berubah >3 hari": hubungi CS untuk pengecekan ke pihak kurir.
+- "Paket terkirim tapi belum diterima": laporkan ke CS dalam 1x24 jam
+  untuk investigasi.

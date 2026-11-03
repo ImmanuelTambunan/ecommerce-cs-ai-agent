@@ -1,0 +1,54 @@
+SOP PENGIRIMAN BARANG (REGULER, KARGO, DAN SAME-DAY DELIVERY)
+=============================================================
+Platform: BeliCepat — Toko Daring Perlengkapan Sekolah
+Berlaku sejak: 1 Januari 2026
+
+1. RUANG LINGKUP
+Prosedur ini mengatur proses pengiriman barang dari gudang BeliCepat ke alamat
+pelanggan, mencakup opsi pengiriman reguler, kargo, dan same-day delivery.
+
+2. OPSI PENGIRIMAN
+
+a) REGULER (2-5 hari kerja)
+   - Tersedia untuk seluruh wilayah Indonesia.
+   - Kurir mitra: JNE, J&T, SiCepat, AnterAja.
+   - Gratis ongkir untuk pesanan di atas Rp 200.000 (Pulau Jawa) atau
+     Rp 500.000 (luar Pulau Jawa).
+   - Maks berat 30 kg per paket.
+
+b) KARGO (5-14 hari kerja)
+   - Untuk pengiriman besar/berat: paket seragam sekolah dalam jumlah banyak,
+     meja/kursi lipat belajar, dan pembelian grosir.
+   - Kurir mitra: JNE Trucking, TIKI Cargo, Indah Cargo.
+   - Tarif dihitung berdasarkan berat volumetrik.
+   - Minimum order 50 kg atau 5 koli.
+
+c) SAME-DAY DELIVERY (hari yang sama, maks 6 jam)
+   - Tersedia untuk area Jabodetabek, Bandung, Surabaya, Medan, dan Makassar.
+   - Pemesanan harus dilakukan sebelum pukul 12.00 WIB.
+   - Kurir mitra: GrabExpress, GoSend Instant.
+   - Biaya tambahan Rp 15.000 - Rp 30.000 tergantung jarak.
+   - Maks berat 5 kg per paket.
+
+3. PENGEMASAN
+- Semua barang dikemas dengan bubble wrap dan kardus berlapis.
+- Produk pecah belah (kalkulator, set alat lukis, globe) diberi tambahan
+  styrofoam dan stiker "FRAGILE".
+- Seragam dikemas dalam plastik ziplock anti-air.
+
+4. PELACAKAN PESANAN
+- Nomor resi otomatis dikirim via SMS/WhatsApp dan email setelah barang
+  diserahkan ke kurir.
+- Pelanggan dapat melacak pesanan melalui halaman "Pesanan Saya" di
+  aplikasi/website BeliCepat atau langsung di website kurir.
+
+5. KETERLAMBATAN PENGIRIMAN
+- Jika pengiriman melewati estimasi waktu, pelanggan dapat menghubungi CS.
+- CS akan mengkoordinasikan dengan kurir dan memberikan update dalam 1x24 jam.
+- Jika barang dinyatakan hilang oleh kurir, pelanggan mendapat refund penuh
+  atau pengiriman ulang tanpa biaya tambahan.
+
+6. KEBIJAKAN MUSIM MASUK SEKOLAH (JULI-AGUSTUS)
+- Selama musim masuk sekolah, volume pengiriman meningkat signifikan.
+- Estimasi pengiriman reguler dapat bertambah 1-3 hari.
+- Pelanggan disarankan memesan minimal 2 minggu sebelum hari pertama sekolah.

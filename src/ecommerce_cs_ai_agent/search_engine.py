@@ -1,88 +1,95 @@
 """
 search_engine.py
 ----------------
-Simple semantic search wrapper around the persistent ChromaDB collection
-created by :pymod:`knowledge_base`.  It exposes two public helpers:
+Modul pencarian semantik yang menggunakan koleksi ChromaDB persisten
+yang dibuat oleh ``knowledge_base.py``.
 
-* ``embed_query(query: str)`` – returns the embedding vector for a raw query.
-* ``search(query: str, top_k: int = 5, similarity_threshold: float = 0.55)`` –
-  returns a list of the most similar chunks together with their metadata.
+Fungsi publik:
+* ``search(query, top_k, similarity_threshold)`` — cari chunk paling relevan.
+* ``embed_query(query)`` — dapatkan vektor embedding dari sebuah query.
 
-The module is deliberately lightweight – it lazily loads the embedding model
-and the Chroma client only when a function is called.  This keeps start‑up
-time low for the unit tests.
+Fitur OOD (Out-of-Domain) filtering:
+  Jika skor cosine similarity semua hasil di bawah ``similarity_threshold``,
+  maka query dianggap tidak relevan (out-of-domain) dan tidak ada hasil
+  yang dikembalikan.
 """
 
 import pathlib
 from typing import List, Dict, Any
 
-# Configuration – must match the paths used in ``knowledge_base.py``
+# ---------- Konfigurasi (harus sama dengan knowledge_base.py) ----------------
 DATA_ROOT = pathlib.Path(__file__).resolve().parents[2] / "data"
 CHROMA_DB_DIR = DATA_ROOT / "chroma_db"
 COLLECTION_NAME = "ecommerce_knowledge_base"
 EMBEDDING_MODEL = "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"
 
-# Lazy imports – they are only required when we actually run a search.
+
+# ---------- Lazy loaders -----------------------------------------------------
+
+_MODEL_CACHE = None
+_COLLECTION_CACHE = None
+
 def _load_embeddings_model():
-    from sentence_transformers import SentenceTransformer
-    return SentenceTransformer(EMBEDDING_MODEL)
+    global _MODEL_CACHE
+    if _MODEL_CACHE is None:
+        from sentence_transformers import SentenceTransformer
+        _MODEL_CACHE = SentenceTransformer(EMBEDDING_MODEL)
+    return _MODEL_CACHE
 
 
 def _load_chroma_collection():
-    import chromadb
-    from chromadb.config import Settings
+    global _COLLECTION_CACHE
+    if _COLLECTION_CACHE is None:
+        import chromadb
+        client = chromadb.PersistentClient(path=str(CHROMA_DB_DIR))
+        _COLLECTION_CACHE = client.get_collection(name=COLLECTION_NAME)
+    return _COLLECTION_CACHE
 
-    client = chromadb.Client(
-        Settings(
-            chroma_db_impl="duckdb+parquet",
-            persist_directory=str(CHROMA_DB_DIR),
-            anonymized_telemetry=False,
-        )
-    )
-    return client.get_collection(name=COLLECTION_NAME)
 
+# ---------- Fungsi publik ----------------------------------------------------
 
 def embed_query(query: str):
-    """Return the vector embedding for *query* using the same model as the index."""
+    """Kembalikan vektor embedding untuk *query* menggunakan model yang sama."""
     model = _load_embeddings_model()
     return model.encode([query])[0].tolist()
 
 
-def search(query: str, top_k: int = 5, similarity_threshold: float = 0.55) -> List[Dict[str, Any]]:
-    """Perform a similarity search against the persistent vector store.
+def search(
+    query: str,
+    top_k: int = 5,
+    similarity_threshold: float = 0.45,
+) -> List[Dict[str, Any]]:
+    """Lakukan pencarian semantik terhadap vector store.
 
     Parameters
     ----------
-    query: str
-        Raw user query.
-    top_k: int, default 5
-        Number of top results to return.
-    similarity_threshold: float, default 0.55
-        Minimum cosine similarity for a result to be considered *in‑domain*.
-        Results below the threshold are omitted – this satisfies the OOD
-        filtering requirement of the milestone.
+    query : str
+        Query teks dari pengguna/pelanggan.
+    top_k : int, default 5
+        Jumlah hasil teratas yang dikembalikan.
+    similarity_threshold : float, default 0.25
+        Batas minimum cosine similarity agar hasil dianggap relevan.
+        Hasil di bawah threshold ini dibuang (OOD filtering).
 
     Returns
     -------
     List[Dict]
-        Each entry contains ``id``, ``text`` (the chunk), ``metadata`` and the
-        ``similarity`` score.
+        Tiap entri berisi ``id``, ``text``, ``metadata``, dan ``similarity``.
     """
     collection = _load_chroma_collection()
     query_vec = embed_query(query)
+
     results = collection.query(
         query_embeddings=[query_vec],
         n_results=top_k,
-        include=["documents", "metadatas", "distances", "ids"],
+        include=["documents", "metadatas", "distances"],
     )
-    # ``distances`` are Euclidean distances – convert to cosine similarity approx.
-    # Chromadb returns ``distances`` as 1 - cosine_similarity when the collection
-    # uses the default ``cosine`` metric, so we can treat them directly.
+
+    # ChromaDB dengan metric "cosine" mengembalikan distance = 1 - similarity.
+    # Jadi similarity = 1 - distance.
     output = []
-    for idx, sim in enumerate(results["distances"][0]):
-        # In the default cosine metric, smaller distance = higher similarity;
-        # we invert it to a similarity score between 0 and 1.
-        similarity = 1 - sim
+    for idx, dist in enumerate(results["distances"][0]):
+        similarity = 1.0 - dist
         if similarity < similarity_threshold:
             continue
         output.append(
@@ -90,24 +97,34 @@ def search(query: str, top_k: int = 5, similarity_threshold: float = 0.55) -> Li
                 "id": results["ids"][0][idx],
                 "text": results["documents"][0][idx],
                 "metadata": results["metadatas"][0][idx],
-                "similarity": similarity,
+                "similarity": round(similarity, 4),
             }
         )
-    # Sort by similarity descending for deterministic output.
+
     output.sort(key=lambda x: x["similarity"], reverse=True)
     return output
 
+
+# ---------- Demo CLI ---------------------------------------------------------
+
 if __name__ == "__main__":
-    # Simple demo when run directly.
     import sys
+
     if len(sys.argv) < 2:
-        print("Usage: python -m ecommerce_cs_ai_agent.search_engine \"your query\"")
+        print('Usage: uv run src/ecommerce_cs_ai_agent/search_engine.py "query anda"')
         sys.exit(1)
+
     query = " ".join(sys.argv[1:])
+    print(f'\n[SEARCH] Query: "{query}"\n')
+
     hits = search(query)
+
     if not hits:
-        print("❌ No relevant results (below similarity threshold).")
+        print("[X] Tidak ada hasil relevan (semua di bawah similarity threshold).")
+        print("    Query ini kemungkinan out-of-domain (OOD).")
     else:
-        for hit in hits:
-            print(f"[Score {hit['similarity']:.3f}] {hit['metadata']['doc_id']} – {hit['text'][:120]}…")
-"
+        print(f"Ditemukan {len(hits)} hasil:\n")
+        for i, hit in enumerate(hits, 1):
+            print(f"  {i}. [Score {hit['similarity']:.4f}] {hit['metadata']['doc_id']}")
+            print(f"     {hit['text'][:150]}...")
+            print()

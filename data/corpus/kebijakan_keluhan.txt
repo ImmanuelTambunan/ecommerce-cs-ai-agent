@@ -1,0 +1,67 @@
+KEBIJAKAN PENANGANAN KELUHAN DAN KOMPLAIN PELANGGAN
+====================================================
+Platform: BeliCepat — Toko Daring Perlengkapan Sekolah
+Berlaku sejak: 1 Januari 2026
+
+1. RUANG LINGKUP
+Kebijakan ini mengatur prosedur penerimaan, klasifikasi, dan penyelesaian
+keluhan pelanggan secara sistematis.
+
+2. KLASIFIKASI KELUHAN
+
+a) KATEGORI PRODUK:
+   - Barang rusak/cacat saat diterima
+   - Barang tidak sesuai deskripsi/foto
+   - Kualitas produk mengecewakan
+   - Ukuran tidak sesuai size chart
+
+b) KATEGORI PENGIRIMAN:
+   - Keterlambatan pengiriman
+   - Paket hilang
+   - Paket rusak saat pengiriman
+   - Salah alamat pengiriman
+
+c) KATEGORI TRANSAKSI:
+   - Pembayaran berhasil tapi pesanan tidak terkonfirmasi
+   - Double charge (tagihan ganda)
+   - Refund belum diterima
+   - Voucher/promo tidak berfungsi
+
+d) KATEGORI LAYANAN:
+   - CS tidak responsif
+   - Penyelesaian masalah terlalu lama
+   - Informasi yang diberikan tidak akurat
+
+3. PRIORITAS KELUHAN
+- URGENT (Prioritas 1): barang cacat berbahaya, double charge, pesanan
+  untuk acara sekolah yang mendesak (< 3 hari). SLA: 4 jam.
+- TINGGI (Prioritas 2): barang rusak, paket hilang, refund tertunda.
+  SLA: 1x24 jam.
+- SEDANG (Prioritas 3): keterlambatan pengiriman, ukuran tidak sesuai,
+  voucher bermasalah. SLA: 2x24 jam.
+- RENDAH (Prioritas 4): pertanyaan umum, feedback, saran perbaikan.
+  SLA: 3x24 jam.
+
+4. PROSEDUR PENANGANAN
+a) Penerimaan: keluhan dicatat di sistem ticketing dengan nomor tiket unik.
+b) Klasifikasi: sistem AI mengklasifikasikan kategori dan prioritas secara
+   otomatis berdasarkan kata kunci dan konteks pesan.
+c) Perutean: tiket diarahkan ke channel yang tepat:
+   - L1: Balasan otomatis (FAQ, info status) — via RAG chatbot
+   - L2: Agent CS (transaksi, retur, pembatalan)
+   - L3: Supervisor (kebijakan khusus, kompensasi, kasus kompleks)
+d) Penyelesaian: masalah diselesaikan sesuai SOP yang berlaku.
+e) Konfirmasi: pelanggan dikonfirmasi bahwa masalah telah terselesaikan.
+f) Follow-up: survei kepuasan dikirim 24 jam setelah penyelesaian.
+
+5. KOMPENSASI KELUHAN
+- Keterlambatan pengiriman > 3 hari dari estimasi: voucher Rp 10.000.
+- Barang rusak/cacat: penggantian baru + voucher Rp 15.000.
+- Paket hilang: refund penuh + voucher Rp 25.000.
+- Double charge: pengembalian kelebihan bayar + voucher Rp 20.000.
+- CS tidak responsif > 24 jam: voucher Rp 10.000 + prioritas eskalasi.
+
+6. PENCATATAN DAN PELAPORAN
+- Semua keluhan dicatat dalam database untuk analisis tren.
+- Laporan mingguan keluhan ditinjau oleh tim manajemen.
+- Kategori keluhan terbanyak menjadi prioritas perbaikan sistem.

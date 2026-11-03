@@ -1,64 +1,55 @@
 """
 knowledge_base.py
 -----------------
-Utility module that builds a **persistent** vector store (ChromaDB) from a set of
-business‑domain documents.  The workflow is:
+Modul untuk membangun **persistent** vector store (ChromaDB) dari dokumen
+SOP/FAQ bisnis ritel perlengkapan sekolah.
 
-1. **Read** every file under ``data/corpus/`` (plain‑text ``.txt`` or ``.md``).
-2. **Chunk** each document into overlapping snippets.  The default ``CHUNK_SIZE``
-   of 500 characters and ``OVERLAP`` of 50 characters works well for SOP‑style
-   texts but can be tuned later.
-3. **Embed** each snippet with a Sentence‑Transformers model.  The multilingual
-   ``paraphrase‑multilingual‑MiniLM‑L12‑v2`` is used because the project is
-   primarily Indonesian but English terms also appear.
-4. **Persist** the embeddings + metadata in a Chroma collection stored on
-   ``data/chroma_db/``.  Persistence is required for the rubric (45 % of the
-   grade).
+Alur kerja:
+1. Membaca semua file .txt / .md di folder ``data/corpus/``.
+2. Memotong (chunk) tiap dokumen menjadi potongan 500 karakter dengan
+   overlap 50 karakter agar konteks antar potongan tidak terputus.
+3. Meng-embed tiap chunk dengan model Sentence-Transformers
+   ``paraphrase-multilingual-MiniLM-L12-v2`` (multilingual, mendukung
+   Bahasa Indonesia).
+4. Menyimpan chunk + embedding + metadata ke ChromaDB **persisten** di
+   folder ``data/chroma_db/``.
 
-The module exports a single ``build_vector_store`` function that can be called
-from a script or from the test suite.
+Fungsi utama: ``build_vector_store()`` — idempotent (aman dipanggil ulang).
 """
 
-import os
 import pathlib
-from typing import List, Dict, Tuple
+from typing import List, Tuple
 
-# ---------- Configuration ----------------------------------------------------
+# ---------- Konfigurasi ------------------------------------------------------
 DATA_ROOT = pathlib.Path(__file__).resolve().parents[2] / "data"
 CORPUS_DIR = DATA_ROOT / "corpus"
 CHROMA_DB_DIR = DATA_ROOT / "chroma_db"
-CHUNK_SIZE = 500  # characters per chunk – chosen to keep a paragraph‑level context
-OVERLAP = 50      # characters – ensures no semantic boundary is lost
-
-# Model name – multilingual, small enough for the sandbox execution environment
+CHUNK_SIZE = 500   # karakter per chunk
+OVERLAP = 50       # karakter overlap antar chunk
+COLLECTION_NAME = "ecommerce_knowledge_base"
 EMBEDDING_MODEL = "sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"
 
+
 # ---------- Helper functions -------------------------------------------------
+
 def _read_documents() -> List[Tuple[str, str]]:
-    """Read all ``.txt``/``.md`` files in ``data/corpus/``.
+    """Baca semua file .txt dan .md di ``data/corpus/``.
 
     Returns
     -------
     List[Tuple[str, str]]
-        A list of ``(doc_id, raw_text)`` tuples. ``doc_id`` is the filename
-        without extension; it is later stored as metadata.
+        Daftar ``(doc_id, raw_text)``.  ``doc_id`` = nama file tanpa ekstensi.
     """
     documents: List[Tuple[str, str]] = []
-    for path in CORPUS_DIR.rglob("*.txt"):
-        with open(path, "r", encoding="utf-8") as f:
-            documents.append((path.stem, f.read()))
-    for path in CORPUS_DIR.rglob("*.md"):
-        with open(path, "r", encoding="utf-8") as f:
-            documents.append((path.stem, f.read()))
+    for ext in ("*.txt", "*.md"):
+        for path in sorted(CORPUS_DIR.rglob(ext)):
+            with open(path, "r", encoding="utf-8") as f:
+                documents.append((path.stem, f.read()))
     return documents
 
 
 def _chunk_text(text: str) -> List[str]:
-    """Split *text* into overlapping character chunks.
-
-    The algorithm is simple: slide a window of ``CHUNK_SIZE`` with a step of
-    ``CHUNK_SIZE - OVERLAP``.
-    """
+    """Potong *text* menjadi chunk berukuran ``CHUNK_SIZE`` dengan overlap."""
     chunks: List[str] = []
     start = 0
     while start < len(text):
@@ -69,41 +60,48 @@ def _chunk_text(text: str) -> List[str]:
         start = end - OVERLAP
     return chunks
 
-# ---------- Main build function --------------------------------------------
-def build_vector_store() -> None:
-    """Create (or refresh) the persistent Chroma collection.
 
-    The function is idempotent – calling it again will delete the existing
-    collection and recreate it from the current corpus.
+# ---------- Fungsi utama -----------------------------------------------------
+
+def build_vector_store() -> None:
+    """Buat (atau refresh) koleksi ChromaDB persisten dari korpus dokumen.
+
+    Fungsi ini idempotent — memanggil ulang akan menghapus koleksi lama
+    dan membuatnya kembali dari korpus terkini.
     """
-    # Lazy imports: they are only needed when the function runs.
     from sentence_transformers import SentenceTransformer
     import chromadb
-    from chromadb.config import Settings
 
-    # Initialise the embedding model once.
+    # Pastikan direktori output ada
+    CHROMA_DB_DIR.mkdir(parents=True, exist_ok=True)
+
+    # Inisialisasi model embedding
     model = SentenceTransformer(EMBEDDING_MODEL)
 
-    # Initialise (or reset) a persistent Chroma client.
-    client = chromadb.Client(
-        Settings(
-            chroma_db_impl="duckdb+parquet",
-            persist_directory=str(CHROMA_DB_DIR),
-            anonymized_telemetry=False,
-        )
+    # Inisialisasi ChromaDB client PERSISTEN (API baru)
+    client = chromadb.PersistentClient(path=str(CHROMA_DB_DIR))
+
+    # Hapus koleksi lama jika ada, lalu buat ulang
+    existing = [c.name for c in client.list_collections()]
+    if COLLECTION_NAME in existing:
+        client.delete_collection(name=COLLECTION_NAME)
+    collection = client.create_collection(
+        name=COLLECTION_NAME,
+        metadata={"hnsw:space": "cosine"},  # eksplisit cosine metric
     )
 
-    # Delete any old collection with the same name to guarantee a clean state.
-    collection_name = "ecommerce_knowledge_base"
-    if collection_name in [c.name for c in client.list_collections()]:
-        client.delete_collection(name=collection_name)
-    collection = client.create_collection(name=collection_name)
+    # Proses setiap dokumen
+    documents = _read_documents()
+    if not documents:
+        print("[PERINGATAN] Tidak ada dokumen ditemukan di", CORPUS_DIR)
+        print("   Silakan tambahkan file .txt/.md ke folder tersebut.")
+        return
 
-    # Process every document.
-    for doc_id, raw in _read_documents():
+    total_chunks = 0
+    for doc_id, raw in documents:
         chunks = _chunk_text(raw)
         embeddings = model.encode(chunks).tolist()
-        # Store each chunk with rich metadata.
+
         ids = [f"{doc_id}_chunk_{i}" for i in range(len(chunks))]
         metadatas = [
             {
@@ -114,16 +112,18 @@ def build_vector_store() -> None:
             }
             for i in range(len(chunks))
         ]
+
         collection.add(
             documents=chunks,
             embeddings=embeddings,
             ids=ids,
             metadatas=metadatas,
         )
+        total_chunks += len(chunks)
 
-    # Persist the data to disk.
-    client.persist()
-    print(f"✅ Vector store built with {collection.count()} records.")
+    print(f"[OK] Vector store berhasil dibangun: {total_chunks} chunk dari {len(documents)} dokumen.")
+    print(f"     Disimpan di: {CHROMA_DB_DIR}")
+
 
 if __name__ == "__main__":
     build_vector_store()

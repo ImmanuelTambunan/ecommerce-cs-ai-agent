@@ -1,0 +1,48 @@
+SOP PELAPORAN BARANG KURANG ATAU SALAH KIRIM
+=============================================
+Platform: BeliCepat — Toko Daring Perlengkapan Sekolah
+Berlaku sejak: 1 Januari 2026
+
+1. RUANG LINGKUP
+Prosedur ini mengatur penanganan kasus barang kurang (tidak lengkap) atau
+barang salah kirim (produk berbeda dari pesanan) yang diterima pelanggan.
+
+2. BATAS WAKTU PELAPORAN
+- Pelanggan harus melaporkan barang kurang/salah kirim maksimal 2x24 jam
+  setelah paket diterima.
+- Pelaporan setelah batas waktu akan ditinjau kasus per kasus oleh supervisor.
+
+3. PROSEDUR PELAPORAN
+a) Pelanggan menghubungi CS melalui chat/email/telepon.
+b) Informasi yang harus disampaikan:
+   - Nomor pesanan
+   - Daftar barang yang dipesan vs barang yang diterima
+   - Foto isi paket lengkap (termasuk label pengiriman)
+   - Video unboxing (jika ada) sangat membantu proses verifikasi
+c) CS melakukan cross-check dengan data gudang dan catatan pengemasan.
+d) Proses verifikasi memakan waktu 1-2 hari kerja.
+
+4. PENYELESAIAN
+
+a) BARANG KURANG:
+   - Barang yang kurang dikirimkan ulang tanpa biaya tambahan.
+   - Estimasi pengiriman ulang: 2-3 hari kerja.
+   - Jika stok barang habis, pelanggan ditawarkan produk pengganti setara
+     atau refund parsial.
+
+b) BARANG SALAH KIRIM:
+   - Pelanggan mengirim kembali barang yang salah (ongkir ditanggung BeliCepat).
+   - Barang yang benar dikirimkan setelah barang salah diterima gudang.
+   - Alternatif: pelanggan boleh menyimpan barang salah kirim jika nilainya
+     di bawah Rp 50.000, dan barang yang benar tetap dikirim.
+
+5. KOMPENSASI
+- Pelanggan yang mengalami barang kurang/salah kirim mendapat voucher
+  senilai Rp 10.000 sebagai permohonan maaf.
+- Jika kejadian berulang pada pesanan yang sama, pelanggan mendapat
+  prioritas pengiriman ekspres untuk pesanan berikutnya.
+
+6. PENCEGAHAN
+- Tim gudang melakukan double-check sebelum pengemasan.
+- Setiap paket difoto sebelum ditutup sebagai bukti kelengkapan.
+- Sistem barcode scanning diterapkan untuk mengurangi human error.

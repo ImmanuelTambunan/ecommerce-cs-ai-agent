@@ -1,0 +1,56 @@
+SLA LAYANAN PELANGGAN DAN JAM OPERASIONAL CUSTOMER SERVICE
+==========================================================
+Platform: BeliCepat — Toko Daring Perlengkapan Sekolah
+Berlaku sejak: 1 Januari 2026
+
+1. RUANG LINGKUP
+Dokumen ini mengatur Service Level Agreement (SLA) dan jam operasional tim
+Customer Service platform BeliCepat.
+
+2. JAM OPERASIONAL
+- Senin - Jumat  : 08.00 - 21.00 WIB
+- Sabtu          : 09.00 - 18.00 WIB
+- Minggu         : 10.00 - 16.00 WIB
+- Hari Libur Nasional: Tutup (pesan akan direspons pada hari kerja berikutnya)
+
+3. CHANNEL LAYANAN
+a) Live Chat (di aplikasi/website BeliCepat):
+   - Respon pertama: maks 2 menit selama jam operasional.
+   - Tersedia chatbot 24/7 untuk pertanyaan umum.
+
+b) Email (cs@belicepat.co.id):
+   - Respon pertama: maks 4 jam selama jam operasional.
+   - Untuk email di luar jam operasional: dijawab pada hari kerja berikutnya
+     sebelum pukul 10.00 WIB.
+
+c) Telepon (021-555-8888):
+   - Tersedia selama jam operasional.
+   - Waktu tunggu rata-rata: < 3 menit.
+   - Tersedia IVR (Interactive Voice Response) 24/7 untuk cek status pesanan.
+
+d) WhatsApp (0812-8888-9999):
+   - Respon pertama: maks 5 menit selama jam operasional.
+   - Chat otomatis tersedia 24/7 untuk FAQ.
+
+e) Media Sosial (Instagram, Twitter/X):
+   - Respon pertama: maks 1 jam selama jam operasional.
+   - DM dan mention dipantau secara aktif.
+
+4. SLA PENYELESAIAN MASALAH
+- Pertanyaan umum (info produk, cara order, status pesanan): 1x24 jam.
+- Keluhan pengiriman (keterlambatan, paket hilang): 2x24 jam.
+- Klaim refund/retur: 3x24 jam (termasuk verifikasi).
+- Klaim garansi: 5x24 jam (termasuk evaluasi QC).
+- Eskalasi ke supervisor: otomatis jika SLA terlampaui.
+
+5. TINGKAT ESKALASI
+- Level 1 (L1): Chatbot / auto-reply berbasis RAG — FAQ dan info umum.
+- Level 2 (L2): Agent CS — transaksi, pembatalan, retur.
+- Level 3 (L3): Supervisor / Kebijakan — kasus kompleks, kompensasi khusus.
+- Eskalasi otomatis dari L1 ke L2 jika chatbot tidak dapat menyelesaikan
+  dalam 3 putaran percakapan.
+
+6. SURVEI KEPUASAN PELANGGAN
+- Setiap interaksi CS diakhiri dengan survei CSAT (1-5 bintang).
+- Target CSAT: >= 4.2 dari 5.0.
+- Feedback negatif (1-2 bintang) otomatis ditinjau supervisor dalam 24 jam.

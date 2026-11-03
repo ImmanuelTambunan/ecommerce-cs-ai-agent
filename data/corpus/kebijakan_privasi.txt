@@ -1,0 +1,54 @@
+KEBIJAKAN PRIVASI DATA DAN AKUN PELANGGAN
+==========================================
+Platform: BeliCepat — Toko Daring Perlengkapan Sekolah
+Berlaku sejak: 1 Januari 2026
+
+1. RUANG LINGKUP
+Kebijakan ini mengatur pengumpulan, penyimpanan, penggunaan, dan perlindungan
+data pribadi pelanggan pada platform BeliCepat, termasuk data orang tua/wali
+dan data siswa yang terkait dengan pembelian perlengkapan sekolah.
+
+2. DATA YANG DIKUMPULKAN
+a) Data Akun: nama lengkap, email, nomor telepon, tanggal lahir, alamat.
+b) Data Transaksi: riwayat pesanan, metode pembayaran, alamat pengiriman.
+c) Data Anak/Siswa (opsional): nama anak, kelas, sekolah, ukuran seragam/sepatu
+   — hanya dikumpulkan jika pelanggan menggunakan fitur "Profil Anak".
+d) Data Teknis: alamat IP, jenis perangkat, cookies, log aktivitas website.
+
+3. PENGGUNAAN DATA
+- Memproses dan mengirimkan pesanan.
+- Memberikan rekomendasi produk yang relevan (berdasarkan usia anak/kelas).
+- Mengirimkan notifikasi promo dan info back-to-school (jika pelanggan opt-in).
+- Analisis internal untuk peningkatan layanan.
+- Data tidak pernah dijual kepada pihak ketiga.
+
+4. PERLINDUNGAN DATA
+- Enkripsi SSL/TLS untuk semua transmisi data.
+- Data pembayaran diproses oleh payment gateway tersertifikasi PCI-DSS.
+- Password disimpan dalam bentuk hash (bcrypt).
+- Akses ke data pelanggan dibatasi hanya untuk personel yang berwenang.
+- Backup data dilakukan harian dengan retensi 90 hari.
+
+5. HAK PELANGGAN
+- Hak akses: pelanggan dapat melihat seluruh data pribadinya melalui menu
+  "Pengaturan Akun".
+- Hak koreksi: pelanggan dapat mengubah data yang tidak akurat kapan saja.
+- Hak hapus: pelanggan dapat meminta penghapusan akun dan seluruh data
+  terkait. Proses memakan waktu 30 hari kerja.
+- Hak portabilitas: pelanggan dapat mengunduh salinan datanya dalam format CSV.
+- Hak keberatan: pelanggan dapat berhenti menerima email promosi kapan saja
+  melalui link "unsubscribe".
+
+6. DATA ANAK DAN SISWA
+- Data anak (nama, kelas, sekolah) disimpan secara terpisah dan terenkripsi.
+- Data anak hanya digunakan untuk fitur rekomendasi ukuran dan produk.
+- Orang tua/wali dapat menghapus data anak kapan saja.
+- BeliCepat tidak menampilkan iklan yang ditargetkan berdasarkan data anak.
+- Sesuai dengan UU Perlindungan Data Pribadi (UU PDP), pengumpulan data anak
+  di bawah 17 tahun memerlukan persetujuan orang tua/wali.
+
+7. RETENSI DATA
+- Data akun aktif: disimpan selama akun aktif.
+- Data akun tidak aktif (>2 tahun tanpa login): notifikasi dikirim 30 hari
+  sebelum penghapusan otomatis.
+- Data transaksi: disimpan minimum 5 tahun untuk keperluan audit dan pajak.

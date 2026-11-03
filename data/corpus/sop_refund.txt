@@ -1,0 +1,42 @@
+SOP PENGEMBALIAN DANA (REFUND) DAN PEMBATALAN PESANAN
+=====================================================
+Platform: BeliCepat — Toko Daring Perlengkapan Sekolah
+Berlaku sejak: 1 Januari 2026
+
+1. RUANG LINGKUP
+Prosedur ini mengatur proses pengembalian dana (refund) dan pembatalan pesanan
+untuk seluruh produk perlengkapan sekolah yang dijual melalui platform BeliCepat,
+termasuk seragam, sepatu, tas, alat tulis, buku, dan perlengkapan seni.
+
+2. SYARAT PENGAJUAN REFUND
+- Pelanggan dapat mengajukan refund maksimal 7 hari kalender setelah barang diterima.
+- Barang harus dalam kondisi belum digunakan, tag masih terpasang, dan kemasan asli
+  masih utuh.
+- Bukti pembelian (nomor pesanan atau invoice) wajib disertakan saat pengajuan.
+- Produk custom atau personalisasi (misalnya seragam dengan bordir nama) tidak dapat
+  di-refund kecuali terdapat cacat produksi.
+
+3. PROSEDUR PENGAJUAN
+a) Pelanggan menghubungi Customer Service melalui chat, email, atau telepon.
+b) CS memverifikasi nomor pesanan dan status pengiriman.
+c) Pelanggan mengirimkan foto barang dan kemasan sebagai bukti kondisi.
+d) Tim QC meninjau pengajuan dalam waktu 1x24 jam kerja.
+e) Jika disetujui, pelanggan mengirim barang kembali menggunakan kurir yang ditunjuk.
+f) Setelah barang diterima dan lolos inspeksi, refund diproses dalam 3-5 hari kerja.
+
+4. METODE PENGEMBALIAN DANA
+- Transfer bank: 3-5 hari kerja setelah barang diterima gudang.
+- Saldo BeliCepat (e-wallet internal): instan setelah disetujui.
+- Kartu kredit: 7-14 hari kerja tergantung bank penerbit.
+
+5. PEMBATALAN PESANAN
+- Pesanan dapat dibatalkan selama status masih "Menunggu Konfirmasi" atau
+  "Sedang Diproses".
+- Pesanan yang sudah berstatus "Sedang Dikirim" tidak dapat dibatalkan, namun
+  pelanggan dapat mengajukan retur setelah barang diterima.
+- Refund untuk pembatalan pesanan dikreditkan dalam 1-2 hari kerja.
+
+6. PENGECUALIAN
+- Flash sale dan promo clearance bersifat final, tidak dapat di-refund.
+- Produk habis pakai (pensil, penghapus, lem) yang sudah dibuka kemasannya
+  tidak dapat di-refund.
