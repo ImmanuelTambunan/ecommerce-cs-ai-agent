@@ -8,9 +8,7 @@ Institut Teknologi Del, Semester Gasal 2026/2027.
 ---
 
 ## Deskripsi Singkat
-Sistem asisten cerdas (AI Copilot) yang dirancang untuk mengotomasi proses klasifikasi,
-perutean, dan penanganan pesan keluhan pelanggan pada platform ritel daring perlengkapan
-sekolah, dengan memanfaatkan pendekatan *agentic AI* dan *retrieval-augmented generation* (RAG).
+Sistem asisten cerdas (*AI Copilot*) yang dirancang untuk mengotomasi proses klasifikasi, perutean, dan penanganan pesan keluhan pelanggan pada platform ritel daring perlengkapan sekolah, dengan memanfaatkan pendekatan *agentic AI* dan *retrieval-augmented generation* (RAG).
 
 ## Anggota Tim (Kelompok 17)
 1. **Adithya Philip Jona Putra Silaban** — 12S24029
@@ -20,27 +18,24 @@ sekolah, dengan memanfaatkan pendekatan *agentic AI* dan *retrieval-augmented ge
 ## Status Proyek
 - [x] **Milestone 1** — Problem Framing, Spesifikasi PEAS, & Baseline Search (UCS)
 - [x] **Milestone 2** — CSP Solver untuk Perutean Pesan Pelanggan Otomatis
-- [x] **Milestone 3** — Pembangunan Basis Pengetahuan Korpus & Vector Semantic Search
+- [x] **Milestone 3** — Pembangunan Basis Pengetahuan Korpus, Word-Aware Chunking, & Vector Semantic Search
 
 ---
 
 ## Fitur & Arsitektur Implementasi
 
-Proyek ini membangun AI Copilot untuk otomatisasi customer service pada platform ritel
-daring perlengkapan sekolah fiktif **BeliCepat** dengan fondasi kecerdasan buatan berjenjang:
+Proyek ini membangun AI Copilot untuk otomatisasi customer service pada platform ritel daring perlengkapan sekolah **BeliCepat** dengan fondasi kecerdasan buatan berjenjang:
 
 1. **Uniform Cost Search (UCS)** (`search.py`):
    Mencari jalur penanganan tiket dengan estimasi biaya waktu minimum dari status awal hingga tiket selesai ditangani.
 2. **Constraint Satisfaction Problem (CSP)** (`solver.py`):
-   Merutekan pesan keluhan pelanggan secara otomatis ke channel L1 (balasan otomatis RAG),
-   L2 (eksekusi transaksi), atau L3 (keputusan kebijakan otomatis), berdasarkan kategori keluhan,
-   tingkat prioritas, dan skor keyakinan intent menggunakan algoritma AC-3, backtracking search, dan heuristik MRV (*Minimum Remaining Values*).
-3. **Basis Pengetahuan Korpus & Vector Semantic Search** (`knowledge_base.py`, `search_engine.py`, `benchmark.py`):
+   Merutekan pesan keluhan pelanggan secara otomatis ke channel L1 (balasan otomatis RAG), L2 (eksekusi transaksi), atau L3 (keputusan kebijakan otomatis), menggunakan algoritma AC-3, *backtracking search*, dan heuristik MRV (*Minimum Remaining Values*).
+3. **Basis Pengetahuan Korpus & Vector Semantic Search** (`knowledge_base.py`, `search_engine.py`, `chunking.py`):
    - **Enterprise Knowledge Corpus**: 14 dokumen teks SOP dan manual regulasi bisnis perlengkapan sekolah di `data/corpus/`.
-   - **Structured Word-Aware Chunking**: Memotong dokumen dengan ukuran 500 karakter dan overlap 50 karakter agar makna antarkalimat tidak terputus.
-   - **Dense Vector Embedding**: Model `sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2` yang menghasilkan representasi vektor padat 384 dimensi, mendukung bahasa Indonesia dan istilah bilingual.
+   - **Structured Word-Aware Chunking** (`chunking.py`): Memotong dokumen dengan ukuran optimal berbasis kata utuh (tanpa memotong kata di tengah) serta *overlap* 50 karakter agar konteks antarkalimat tidak terputus.
+   - **Dense Vector Embedding**: Model `sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2` yang menghasilkan representasi vektor padat 384 dimensi, mendukung bahasa Indonesia dan istilah *bilingual*.
    - **Persistent Vector Store**: Menggunakan **ChromaDB** dengan penyimpanan persisten pada disk (`data/chroma_db/`) dan metrik jarak *Cosine Similarity*.
-   - **Semantic Retrieval & OOD Rejection**: Temu balik semantik dilengkapi mekanisme filtering dengan threshold (`0.45`) untuk secara presisi menolak kueri di luar domain bisnis (*Out-of-Domain*).
+   - **Semantic Retrieval & OOD Rejection**: Temu balik semantik dilengkapi mekanisme filtering dengan *threshold* (`0.45`) untuk secara presisi menolak kueri di luar domain bisnis (*Out-of-Domain*).
 
 ---
 
@@ -74,12 +69,16 @@ ecommerce-cs-ai-agent/
 │       ├── __init__.py
 │       ├── search.py               # Milestone 1: Modul UCS
 │       ├── solver.py               # Milestone 2: Solver CSP perutean tiket
-│       ├── knowledge_base.py       # Milestone 3: Ingestion, chunking, & persistensi ChromaDB
+│       ├── chunking.py             # Milestone 3: Modul pemotong teks kata utuh (word-aware)
+│       ├── knowledge_base.py       # Milestone 3: Ingestion, word-aware chunking, & persistensi ChromaDB
 │       ├── search_engine.py        # Milestone 3: Temu balik semantik & OOD filter
-│       └── benchmark.py            # Milestone 3: Tolok ukur evaluasi 5 kueri bisnis
+│       ├── eksperimen_chunk.py     # Milestone 3: Skrip uji coba variasi ukuran chunk
+│       ├── benchmark_lanjutan.py   # Milestone 3: Skrip tolok ukur evaluasi kueri & threshold
+│       └── laporan_db.py           # Milestone 3: Skrip rekapitulasi statistik database & metadata
 ├── tests/
-│   ├── test_solver.py              # Unit test CSP (5 test cases)
-│   └── test_knowledge_base.py      # Unit test basis pengetahuan & retrieval (7 test cases)
+│   ├── test_chunking.py            # Unit test algoritma chunking (7 test cases)
+│   ├── test_knowledge_base.py      # Unit test basis pengetahuan & retrieval (7 test cases)
+│   └── test_solver.py              # Unit test CSP (5 test cases)
 ├── .gitignore
 ├── LICENSE
 ├── README.md
@@ -350,3 +349,5 @@ tests\test_solver.py .....                                               [100%]
 Rincian cakupan pengujian:
 - **`test_solver.py` (5 pengujian)**: Validasi solusi konsistensi CSP, aturan node consistency, batasan kapasitas agen, penanganan pesan berprioritas tinggi, dan pencegahan penugasan L3 pada intent confidence rendah.
 - **`test_knowledge_base.py` (7 pengujian)**: Validasi kuantitas korpus ($\ge$ 10 dokumen), integritas indeks ChromaDB persisten, dimensi dense embedding (384), keberhasilan temu balik kueri relevan, keakuratan temu balik kueri sinonim, serta presisi penolakan untuk 2 skenario kueri *out-of-domain*.
+
+
